@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Michael Kollasch" />
+  <title>3440×1440 Ultrawide Wallpaper Studio — Built by Michael Kollasch</title>
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #111520;
+      --panel-2: #171c2b;
+      --border: #252c3f;
+      --text: #e8ecf5;
+      --muted: #8f9bb3;
+      --accent: #d98a3c;
+      --accent-2: #c83e3b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-rows: 58px 1fr;
+      height: 100vh;
+    }
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: #090b10;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .author-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #f3d2a8;
+      background: rgba(217, 138, 60, 0.14);
+      border: 1px solid rgba(217, 138, 60, 0.4);
+      padding: 3px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      background: #1d2437;
+    }
+
+    .btn.active {
+      background: rgba(217, 138, 60, 0.18);
+      border-color: var(--accent);
+      color: #ffd7a8;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #d98a3c, #c83e3b);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      box-shadow: 0 2px 10px rgba(200, 62, 59, 0.25);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    /* Main Workspace */
+    .workspace {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      min-height: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+      background: #0d1018;
+    }
+
+    .tab-btn {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 11px 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(217, 138, 60, 0.06);
+    }
+
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    .tab-pane {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tab-pane.active {
+      display: flex;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .choice-card {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 10px;
+      text-align: left;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .choice-card:hover {
+      border-color: #465273;
+    }
+
+    .choice-card.active {
+      border-color: var(--accent);
+      background: rgba(217, 138, 60, 0.12);
+    }
+
+    .choice-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .choice-sub {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .swatch-row {
+      display: flex;
+      gap: 4px;
+      margin-top: 3px;
+    }
+
+    .swatch {
+      width: 14px;
+      height: 6px;
+      border-radius: 2px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .control-val {
+      color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      background: #0c0f17;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 9px;
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .shelf-inputs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+
+    .shelf-input-row {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .upload-box {
+      border: 1px dashed #3b4663;
+      border-radius: 8px;
+      padding: 10px;
+      background: #0d111a;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .upload-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      border-radius: 7px;
+      font-size: 12px;
+    }
+
+    .sidebar-footer {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+      background: #0c0f17;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .sidebar-footer strong {
+      color: var(--text);
+    }
+
+    /* Preview Stage */
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 50% 45%, #141927 0%, #07090e 75%);
+      min-width: 0;
+      min-height: 0;
+      gap: 12px;
+    }
+
+    .canvas-frame {
+      width: 100%;
+      max-width: 1240px;
+      aspect-ratio: 3440 / 1440;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #2b3348;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72);
+      background: #000;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .stage-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1240px;
+      font-size: 11px;
+      color: var(--muted);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill-info {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 960px) {
+      html, body { overflow: auto; }
+      .app { height: auto; grid-template-rows: auto 1fr; }
+      .workspace { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">MK</div>
+        <div class="brand-title">3440×1440 Ultrawide Wallpaper Studio</div>
+        <span class="author-badge">Built by Michael Kollasch</span>
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn" id="btnRandom">Randomize Combo</button>
+        <button class="btn" id="btnGrid">Show 6×3 Grid</button>
+        <button class="btn-primary" id="btnDownload">Download 3440×1440 PNG</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar">
+        <nav class="tabs">
+          <button class="tab-btn active" data-tab="scenes">Scenes</button>
+          <button class="tab-btn" data-tab="style">Style</button>
+          <button class="tab-btn" data-tab="shelves">Shelves</button>
+          <button class="tab-btn" data-tab="quote">Quote</button>
+        </nav>
+
+        <div class="tab-content">
+          <!-- SCENES TAB -->
+          <div class="tab-pane active" id="tab-scenes">
+            <div>
+              <div class="section-label">Built-In Space Scenes</div>
+              <div class="card-grid" id="sceneCards"></div>
+            </div>
+
+            <div>
+              <div class="section-label">Custom Background Image</div>
+              <div class="upload-box">
+                <input type="file" id="bgUpload" accept="image/*" style="font-size:11px;color:var(--muted);" />
+                <div class="upload-actions">
+                  <button class="btn" id="btnClearBg" style="flex:1;">Use Built-In Scene</button>
+                </div>
+                <div class="control-group">
+                  <div class="control-row"><span>Image Dimmer</span><span class="control-val" id="valBgDim">35%</span></div>
+                  <input type="range" id="bgDim" min="0" max="85" value="35" />
+                </div>
+                <div class="control-group">
+                  <div class="control-row"><span>Background Blur</span><span class="control-val" id="valBgBlur">0px</span></div>
+                  <input type="range" id="bgBlur" min="0" max="20" value="0" />
+                </div>
+                <div class="control-group">
+                  <div class="control-row"><span>Image Zoom</span><span class="control-val" id="valBgZoom">100%</span></div>
+                  <input type="range" id="bgZoom" min="100" max="180" value="100" />
+                </div>
+                <div class="control-group">
+                  <div class="control-row"><span>Pan Horizontal</span><span class="control-val" id="valBgPanX">0%</span></div>
+                  <input type="range" id="bgPanX" min="-50" max="50" value="0" />
+                </div>
+                <div class="control-group">
+                  <div class="control-row"><span>Pan Vertical</span><span class="control-val" id="valBgPanY">0%</span></div>
+                  <input type="range" id="bgPanY" min="-50" max="50" value="0" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STYLE TAB -->
+          <div class="tab-pane" id="tab-style">
+            <div>
+              <div class="section-label">Color Theme</div>
+              <div class="card-grid" id="themeCards"></div>
+            </div>
+
+            <div>
+              <div class="section-label">HUD Frame Style</div>
+              <div class="card-grid" id="frameCards"></div>
+            </div>
+
+            <div class="control-group">
+              <div class="control-row"><span>Shelf Interior Darkness</span><span class="control-val" id="valBoxOpacity">92%</span></div>
+              <input type="range" id="boxOpacity" min="60" max="100" value="92" />
+            </div>
+
+            <div class="toggle-row">
+              <span>Subtle CRT Scanlines</span>
+              <input type="checkbox" id="chkScanlines" checked />
+            </div>
+          </div>
+
+          <!-- SHELVES TAB -->
+          <div class="tab-pane" id="tab-shelves">
+            <div>
+              <div class="section-label">Layout Mode</div>
+              <div class="card-grid" id="layoutCards">
+                <button class="choice-card active" data-layout="6">
+                  <span class="choice-title">6 Staggered</span>
+                  <span class="choice-sub">4 corners + 2 inset middle</span>
+                </button>
+                <button class="choice-card" data-layout="4">
+                  <span class="choice-title">4 Corners</span>
+                  <span class="choice-sub">Wide open center</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="section-label">Shelf Titles</div>
+              <div class="shelf-inputs">
+                <div class="shelf-input-row"><span>Top-Left</span><input type="text" id="t0" value="QUICK ACCESS" /></div>
+                <div class="shelf-input-row" id="rowMidL"><span>Mid-Left</span><input type="text" id="t1" value="APPLICATIONS" /></div>
+                <div class="shelf-input-row"><span>Bot-Left</span><input type="text" id="t2" value="ONBOARDING" /></div>
+                <div class="shelf-input-row"><span>Top-Right</span><input type="text" id="t3" value="eCOURTS" /></div>
+                <div class="shelf-input-row" id="rowMidR"><span>Mid-Right</span><input type="text" id="t4" value="BIS INFORMATION" /></div>
+                <div class="shelf-input-row"><span>Bot-Right</span><input type="text" id="t5" value="IT INFORMATION" /></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="section-label">Windows 100% Scaling Calibration</div>
+              <div class="control-group">
+                <div class="control-row"><span>Shelf Width</span><span class="control-val" id="valShelfW">510px</span></div>
+                <input type="range" id="shelfW" min="420" max="660" step="2" value="510" />
+              </div>
+              <div class="control-group">
+                <div class="control-row"><span>Shelf Height</span><span class="control-val" id="valShelfH">380px</span></div>
+                <input type="range" id="shelfH" min="300" max="430" step="2" value="380" />
+              </div>
+              <div class="control-group">
+                <div class="control-row"><span>Middle Row Inward Offset</span><span class="control-val" id="valMidOffset">150px</span></div>
+                <input type="range" id="midOffset" min="0" max="320" step="5" value="150" />
+              </div>
+              <div class="control-group">
+                <div class="control-row"><span>Outer Edge Margin</span><span class="control-val" id="valEdgeMargin">40px</span></div>
+                <input type="range" id="edgeMargin" min="16" max="100" step="2" value="40" />
+              </div>
+              <div class="control-group">
+                <div class="control-row"><span>Taskbar Bottom Buffer</span><span class="control-val" id="valTaskbar">68px</span></div>
+                <input type="range" id="taskbar" min="0" max="120" step="2" value="68" />
+              </div>
+            </div>
+          </div>
+
+          <!-- QUOTE TAB -->
+          <div class="tab-pane" id="tab-quote">
+            <div class="toggle-row">
+              <span>Show Center Quote</span>
+              <input type="checkbox" id="chkQuote" checked />
+            </div>
+
+            <div class="control-group">
+              <div class="section-label">Quote Text</div>
+              <input type="text" id="quoteText" value="SEE YOU SPACE COWBOY..." />
+            </div>
+
+            <div class="control-group">
+              <div class="section-label">Typography Style</div>
+              <select id="quoteFont">
+                <option value="italic bold">Classic Bebop Italic Serif</option>
+                <option value="hud">Condensed Cockpit HUD</option>
+                <option value="mono">Retro Terminal Mono</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <div class="control-row"><span>Quote Size</span><span class="control-val" id="valQuoteSize">54px</span></div>
+              <input type="range" id="quoteSize" min="28" max="96" value="54" />
+            </div>
+
+            <div class="control-group">
+              <div class="control-row"><span>Vertical Position</span><span class="control-val" id="valQuoteY">84%</span></div>
+              <input type="range" id="quoteY" min="12" max="91" value="84" />
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          Designed &amp; Built by <strong>Michael Kollasch</strong><br />
+          Runs 100% locally in your browser. Nothing is uploaded.
+        </div>
+      </aside>
+
+      <main class="stage">
+        <div class="canvas-frame">
+          <canvas id="canvas" width="3440" height="1440"></canvas>
+        </div>
+        <div class="stage-meta">
+          <span class="pill-info">Native Canvas: 3440 × 1440 (21:9 Ultrawide)</span>
+          <span class="pill-info" id="metaStatus">6 Staggered Shelves • 6×3 Windows Grid (76×100px cells)</span>
+          <span class="pill-info">Grid &amp; taskbar guides auto-hide on PNG export</span>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const W = 3440;
+    const H = 1440;
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const SCENES = [
+      { id: "mars", name: "Mars & Swordfish", sub: "Dusty red planet + fighter" },
+      { id: "ganymede", name: "Ganymede Orbit", sub: "Icy ringed horizon" },
+      { id: "gate", name: "Astral Gate", sub: "Hyperspace warp ring" },
+      { id: "jupiter", name: "Jupiter Jazz", sub: "Violet nebula + spires" },
+      { id: "asteroid", name: "Asteroid Drift", sub: "Belt + Bebop silhouette" },
+      { id: "starchart", name: "Star-Chart HUD", sub: "Minimal orbital telemetry" }
+    ];
+
+    const THEMES = [
+      { id: "mars", name: "Mars Noir", accent: "#D98A3C", accent2: "#C83E3B", title: "#EAE2D3", boxBg: "#0D1017", glow: "rgba(217,138,60,0.22)" },
+      { id: "ganymede", name: "Ganymede Teal", accent: "#38BDF8", accent2: "#818CF8", title: "#E6F1FF", boxBg: "#091019", glow: "rgba(56,189,248,0.20)" },
+      { id: "jupiter", name: "Jupiter Jazz", accent: "#EAB308", accent2: "#A855F7", title: "#F5EFE0", boxBg: "#0E0B16", glow: "rgba(168,85,247,0.22)" },
+      { id: "swordfish", name: "Swordfish Red", accent: "#E11D48", accent2: "#F59E0B", title: "#F4EAE6", boxBg: "#110B0E", glow: "rgba(225,29,72,0.22)" },
+      { id: "crt", name: "CRT Amber", accent: "#F59E0B", accent2: "#B45309", title: "#FEF3C7", boxBg: "#0D0B07", glow: "rgba(245,158,11,0.20)" },
+      { id: "mono", name: "Stealth Mono", accent: "#CBD5E1", accent2: "#64748B", title: "#F8FAFC", boxBg: "#0B0D11", glow: "rgba(203,213,225,0.16)" }
+    ];
+
+    const FRAMES = [
+      { id: "chamfer", name: "Chamfered Cockpit", sub: "Clipped HUD corners" },
+      { id: "brackets", name: "Tactical Brackets", sub: "Bold corner reticles" },
+      { id: "double", name: "Retro Double-Line", sub: "90s CRT monitor frame" },
+      { id: "minimal", name: "Clean Minimal", sub: "Hairline + header rule" }
+    ];
+
+    const state = {
+      scene: "mars",
+      theme: "mars",
+      frame: "chamfer",
+      layout: 6,
+      showGrid: false,
+      scanlines: true,
+      boxOpacity: 0.92,
+      shelfW: 510,
+      shelfH: 380,
+      midOffset: 150,
+      edgeMargin: 40,
+      taskbar: 68,
+      titles: [
+        "QUICK ACCESS",
+        "APPLICATIONS",
+        "ONBOARDING",
+        "eCOURTS",
+        "BIS INFORMATION",
+        "IT INFORMATION"
+      ],
+      showQuote: true,
+      quoteText: "SEE YOU SPACE COWBOY...",
+      quoteFont: "italic bold",
+      quoteSize: 54,
+      quoteY: 84,
+      customBg: null,
+      bgDim: 0.35,
+      bgBlur: 0,
+      bgZoom: 1.0,
+      bgPanX: 0,
+      bgPanY: 0
+    };
+
+    // Seeded PRNG so stars & clouds stay rock-solid across redraws
+    function mulberry32(seed) {
+      return function () {
+        let t = (seed += 0x6d2b79f5);
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function getTheme() {
+      return THEMES.find(t => t.id === state.theme) || THEMES[0];
+    }
+
+    function hexToRgba(hex, alpha) {
+      const clean = hex.replace("#", "");
+      const r = parseInt(clean.substring(0, 2), 16);
+      const g = parseInt(clean.substring(2, 4), 16);
+      const b = parseInt(clean.substring(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function drawStars(count, seed, tint = "#ffffff") {
+      const rand = mulberry32(seed);
+      for (let i = 0; i < count; i++) {
+        const x = rand() * W;
+        const y = rand() * H;
+        const r = rand() < 0.85 ? rand() * 1.3 + 0.3 : rand() * 2.4 + 1.0;
+        const a = rand() * 0.72 + 0.15;
+        ctx.fillStyle = rand() < 0.2 ? hexToRgba(tint, a) : `rgba(240,244,255,${a.toFixed(2)})`;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawNebulaBlob(cx, cy, rx, ry, colorStops, rotation = 0) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rotation);
+      ctx.scale(1, ry / rx);
+      const g = ctx.createRadialGradient(0, 0, 10, 0, 0, rx);
+      colorStops.forEach(([pos, col]) => g.addColorStop(pos, col));
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(0, 0, rx, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawSwordfish(cx, cy, scale, angle) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.scale(scale, scale);
+
+      // Engine trail
+      const trail = ctx.createLinearGradient(-460, 0, -90, 0);
+      trail.addColorStop(0, "rgba(217, 138, 60, 0)");
+      trail.addColorStop(0.6, "rgba(217, 138, 60, 0.22)");
+      trail.addColorStop(1, "rgba(255, 224, 165, 0.75)");
+      ctx.fillStyle = trail;
+      ctx.beginPath();
+      ctx.moveTo(-95, -8);
+      ctx.lineTo(-460, -2);
+      ctx.lineTo(-460, 2);
+      ctx.lineTo(-95, 8);
+      ctx.closePath();
+      ctx.fill();
+
+      // Main swept wings
+      ctx.fillStyle = "#9e2528";
+      ctx.beginPath();
+      ctx.moveTo(-60, -14);
+      ctx.lineTo(-20, -120);
+      ctx.lineTo(15, -118);
+      ctx.lineTo(28, -18);
+      ctx.lineTo(28, 18);
+      ctx.lineTo(15, 118);
+      ctx.lineTo(-20, 120);
+      ctx.lineTo(-60, 14);
+      ctx.closePath();
+      ctx.fill();
+
+      // Wing dark shading
+      ctx.fillStyle = "#5c1317";
+      ctx.beginPath();
+      ctx.moveTo(-60, 4);
+      ctx.lineTo(-20, 120);
+      ctx.lineTo(15, 118);
+      ctx.lineTo(28, 12);
+      ctx.closePath();
+      ctx.fill();
+
+      // Long needle nose & twin prongs
+      ctx.fillStyle = "#c83236";
+      ctx.beginPath();
+      ctx.moveTo(-105, -10);
+      ctx.lineTo(235, -3);
+      ctx.lineTo(245, 0);
+      ctx.lineTo(235, 3);
+      ctx.lineTo(-105, 10);
+      ctx.closePath();
+      ctx.fill();
+
+      // Forward ventral spike
+      ctx.fillStyle = "#7a1a1d";
+      ctx.beginPath();
+      ctx.moveTo(40, 8);
+      ctx.lineTo(175, 16);
+      ctx.lineTo(155, 21);
+      ctx.lineTo(30, 15);
+      ctx.closePath();
+      ctx.fill();
+
+      // Central cockpit pod
+      ctx.fillStyle = "#d93d3f";
+      ctx.beginPath();
+      ctx.ellipse(-18, 0, 56, 26, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Glass canopy
+      const glass = ctx.createLinearGradient(-35, -16, 15, 12);
+      glass.addColorStop(0, "#ffe4b5");
+      glass.addColorStop(0.45, "#46708f");
+      glass.addColorStop(1, "#121f2e");
+      ctx.fillStyle = glass;
+      ctx.beginPath();
+      ctx.ellipse(-8, -3, 30, 13, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Engine core glow
+      ctx.fillStyle = "#ffdf9e";
+      ctx.beginPath();
+      ctx.ellipse(-102, 0, 7, 10, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawBuiltInScene(sceneId) {
+      // Base deep space fill
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      if (sceneId === "ganymede") {
+        bg.addColorStop(0, "#050912");
+        bg.addColorStop(1, "#091522");
+      } else if (sceneId === "jupiter") {
+        bg.addColorStop(0, "#070611");
+        bg.addColorStop(1, "#130c1d");
+      } else if (sceneId === "gate") {
+        bg.addColorStop(0, "#060811");
+        bg.addColorStop(1, "#0d0f1d");
+      } else {
+        bg.addColorStop(0, "#06080e");
+        bg.addColorStop(1, "#0d0f18");
+      }
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      if (sceneId === "mars") {
+        drawNebulaBlob(1720, 620, 1050, 560, [
+          [0, "rgba(182, 74, 46, 0.22)"],
+          [0.5, "rgba(72, 46, 86, 0.14)"],
+          [1, "rgba(0,0,0,0)"]
+        ], -0.18);
+        drawNebulaBlob(1480, 920, 720, 340, [
+          [0, "rgba(217, 138, 60, 0.16)"],
+          [1, "rgba(0,0,0,0)"]
+        ], 0.25);
+        drawStars(520, 101, "#ffd2a6");
+
+        // Mars planet
+        const px = 1790, py = 570, pr = 310;
+        const pGrad = ctx.createRadialGradient(px - 110, py - 95, 30, px, py, pr);
+        pGrad.addColorStop(0, "#d87a4a");
+        pGrad.addColorStop(0.45, "#9c3f2c");
+        pGrad.addColorStop(0.82, "#3a171c");
+        pGrad.addColorStop(1, "#0f0912");
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+        ctx.fillStyle = pGrad;
+        ctx.fill();
+        ctx.clip();
+
+        // Atmospheric dust bands
+        ctx.fillStyle = "rgba(240, 175, 118, 0.08)";
+        ctx.fillRect(px - pr, py - 120, pr * 2, 44);
+        ctx.fillRect(px - pr, py + 35, pr * 2, 28);
+        ctx.fillStyle = "rgba(28, 10, 14, 0.22)";
+        ctx.beginPath();
+        ctx.ellipse(px - 40, py - 20, 110, 38, -0.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Rim light
+        ctx.strokeStyle = "rgba(255, 185, 120, 0.35)";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(px, py, pr + 2, -Math.PI * 0.92, -Math.PI * 0.12);
+        ctx.stroke();
+
+        // Swordfish II gliding across the open center
+        drawSwordfish(1610, 795, 1.12, -0.17);
+      }
+
+      else if (sceneId === "ganymede") {
+        drawNebulaBlob(1720, 540, 1100, 480, [
+          [0, "rgba(56, 189, 248, 0.16)"],
+          [0.55, "rgba(99, 102, 241, 0.10)"],
+          [1, "rgba(0,0,0,0)"]
+        ], 0.1);
+        drawStars(580, 202, "#bae6fd");
+
+        // Large curved icy planet horizon
+        const px = 1720, py = 1860, pr = 1120;
+        const g = ctx.createRadialGradient(px - 220, py - 950, 120, px, py, pr);
+        g.addColorStop(0, "#7dd3fc");
+        g.addColorStop(0.28, "#1e4b6e");
+        g.addColorStop(0.65, "#0d1f33");
+        g.addColorStop(1, "#050a12");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Atmospheric halo
+        ctx.strokeStyle = "rgba(125, 211, 252, 0.55)";
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.arc(px, py, pr + 3, Math.PI * 1.15, Math.PI * 1.85);
+        ctx.stroke();
+
+        // Tilted orbital rings
+        ctx.save();
+        ctx.translate(1720, 510);
+        ctx.rotate(-0.18);
+        for (let i = 0; i < 4; i++) {
+          ctx.strokeStyle = `rgba(147, 197, 253, ${0.22 - i * 0.04})`;
+          ctx.lineWidth = 2 + (i === 1 ? 3 : 0);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 620 + i * 32, 115 + i * 9, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // Distant moon
+        const mg = ctx.createRadialGradient(1970, 390, 8, 1995, 415, 76);
+        mg.addColorStop(0, "#dbeafe");
+        mg.addColorStop(0.6, "#3b5b7c");
+        mg.addColorStop(1, "#0c1522");
+        ctx.fillStyle = mg;
+        ctx.beginPath();
+        ctx.arc(1995, 415, 76, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      else if (sceneId === "gate") {
+        drawNebulaBlob(1720, 660, 900, 680, [
+          [0, "rgba(139, 92, 246, 0.24)"],
+          [0.45, "rgba(56, 189, 248, 0.12)"],
+          [1, "rgba(0,0,0,0)"]
+        ]);
+        drawStars(460, 303, "#c4b5fd");
+
+        // Warp streaks radiating from center
+        const rand = mulberry32(333);
+        ctx.save();
+        ctx.translate(1720, 640);
+        for (let i = 0; i < 90; i++) {
+          const ang = rand() * Math.PI * 2;
+          const r1 = 160 + rand() * 340;
+          const r2 = r1 + 60 + rand() * 240;
+          ctx.strokeStyle = `rgba(196, 181, 253, ${(rand() * 0.28 + 0.06).toFixed(2)})`;
+          ctx.lineWidth = rand() * 1.8 + 0.6;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(ang) * r1, Math.sin(ang) * r1);
+          ctx.lineTo(Math.cos(ang) * r2, Math.sin(ang) * r2);
+          ctx.stroke();
+        }
+
+        // Astral Gate geometric ring
+        for (const [r, w, col] of [
+          [340, 14, "rgba(30, 38, 60, 0.92)"],
+          [340, 3, "rgba(217, 138, 60, 0.72)"],
+          [295, 2, "rgba(125, 211, 252, 0.55)"],
+          [385, 1.5, "rgba(255, 255, 255, 0.22)"]
+        ]) {
+          ctx.strokeStyle = col;
+          ctx.lineWidth = w;
+          ctx.beginPath();
+          ctx.arc(0, 0, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Gate pylons
+        for (let i = 0; i < 8; i++) {
+          const ang = (i * Math.PI) / 4 + Math.PI / 8;
+          ctx.save();
+          ctx.rotate(ang);
+          ctx.fillStyle = "#1b2236";
+          ctx.strokeStyle = "rgba(217, 138, 60, 0.65)";
+          ctx.lineWidth = 2;
+          ctx.fillRect(318, -14, 52, 28);
+          ctx.strokeRect(318, -14, 52, 28);
+          ctx.restore();
+        }
+        ctx.restore();
+
+        drawSwordfish(1720, 640, 0.78, -0.35);
+      }
+
+      else if (sceneId === "jupiter") {
+        drawNebulaBlob(1550, 560, 960, 540, [
+          [0, "rgba(168, 85, 247, 0.24)"],
+          [0.5, "rgba(234, 179, 8, 0.12)"],
+          [1, "rgba(0,0,0,0)"]
+        ], -0.2);
+        drawNebulaBlob(1960, 820, 760, 420, [
+          [0, "rgba(234, 179, 8, 0.16)"],
+          [1, "rgba(0,0,0,0)"]
+        ]);
+        drawStars(480, 404, "#fde68a");
+
+        // Banded crescent Jupiter
+        const px = 1720, py = 540, pr = 320;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+        ctx.clip();
+        const jg = ctx.createLinearGradient(px - pr, py - pr, px + pr, py + pr);
+        jg.addColorStop(0, "#d4a259");
+        jg.addColorStop(0.35, "#85523b");
+        jg.addColorStop(0.7, "#3b233d");
+        jg.addColorStop(1, "#120c1c");
+        ctx.fillStyle = jg;
+        ctx.fillRect(px - pr, py - pr, pr * 2, pr * 2);
+
+        const bands = [-200, -120, -40, 45, 130, 210];
+        bands.forEach((by, idx) => {
+          ctx.fillStyle = idx % 2 === 0 ? "rgba(255, 224, 150, 0.12)" : "rgba(26, 12, 34, 0.28)";
+          ctx.fillRect(px - pr, py + by, pr * 2, 36);
+        });
+
+        // Shadow crescent mask
+        ctx.fillStyle = "rgba(8, 6, 16, 0.72)";
+        ctx.beginPath();
+        ctx.arc(px + 125, py + 40, pr * 0.96, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Distant colony spires silhouette at bottom center
+        ctx.fillStyle = "#080710";
+        const spires = [
+          [1240, 1440, 44, 190], [1310, 1440, 28, 250], [1360, 1440, 56, 165],
+          [1440, 1440, 32, 220], [1980, 1440, 36, 235], [2040, 1440, 54, 180],
+          [2120, 1440, 30, 260], [2170, 1440, 46, 175]
+        ];
+        spires.forEach(([x, base, w, h]) => {
+          ctx.fillRect(x, base - h, w, h);
+          ctx.fillStyle = "rgba(234, 179, 8, 0.45)";
+          ctx.fillRect(x + w / 2 - 2, base - h - 22, 4, 22);
+          ctx.fillStyle = "#080710";
+        });
+      }
+
+      else if (sceneId === "asteroid") {
+        drawNebulaBlob(1720, 720, 1200, 420, [
+          [0, "rgba(200, 62, 59, 0.18)"],
+          [0.5, "rgba(217, 138, 60, 0.12)"],
+          [1, "rgba(0,0,0,0)"]
+        ], -0.25);
+        drawStars(520, 505, "#fed7aa");
+
+        // Cel-shaded asteroids
+        const rand = mulberry32(555);
+        for (let i = 0; i < 22; i++) {
+          const ax = 1020 + rand() * 1400;
+          const ay = 180 + rand() * 980;
+          const ar = 16 + rand() * 68;
+          const sides = 6 + Math.floor(rand() * 4);
+          ctx.save();
+          ctx.translate(ax, ay);
+          ctx.rotate(rand() * Math.PI * 2);
+          ctx.beginPath();
+          for (let s = 0; s < sides; s++) {
+            const ang = (s / sides) * Math.PI * 2;
+            const rad = ar * (0.72 + rand() * 0.38);
+            const px = Math.cos(ang) * rad;
+            const py = Math.sin(ang) * rad;
+            if (s === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          const ag = ctx.createLinearGradient(-ar, -ar, ar, ar);
+          ag.addColorStop(0, "#5e4a44");
+          ag.addColorStop(0.55, "#262026");
+          ag.addColorStop(1, "#0d0c12");
+          ctx.fillStyle = ag;
+          ctx.fill();
+          ctx.strokeStyle = "rgba(217, 138, 60, 0.25)";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Bebop trawler silhouette in upper center
+        ctx.save();
+        ctx.translate(1720, 640);
+        ctx.scale(1.15, 1.15);
+        ctx.fillStyle = "#171c28";
+        ctx.strokeStyle = "rgba(217, 138, 60, 0.45)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-220, 12);
+        ctx.lineTo(-170, -28);
+        ctx.lineTo(95, -28);
+        ctx.lineTo(155, -8);
+        ctx.lineTo(225, 0);
+        ctx.lineTo(175, 26);
+        ctx.lineTo(-195, 26);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // Bridge tower
+        ctx.fillRect(-55, -62, 66, 34);
+        ctx.strokeRect(-55, -62, 66, 34);
+        // Tiny warm cabin lights
+        ctx.fillStyle = "#fbbf24";
+        for (let i = 0; i < 6; i++) {
+          ctx.fillRect(-130 + i * 38, -2, 10, 4);
+        }
+        ctx.restore();
+      }
+
+      else if (sceneId === "starchart") {
+        drawStars(360, 606, "#94a3b8");
+        const theme = getTheme();
+        ctx.save();
+        ctx.translate(1720, 680);
+        ctx.strokeStyle = hexToRgba(theme.accent, 0.16);
+        ctx.lineWidth = 1.5;
+
+        // Concentric orbital rings
+        [150, 290, 430, 580].forEach((r, idx) => {
+          ctx.setLineDash(idx % 2 === 1 ? [10, 10] : []);
+          ctx.beginPath();
+          ctx.arc(0, 0, r, 0, Math.PI * 2);
+          ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        // Crosshairs & degree ticks
+        ctx.beginPath();
+        ctx.moveTo(-660, 0); ctx.lineTo(660, 0);
+        ctx.moveTo(0, -520); ctx.lineTo(0, 520);
+        ctx.stroke();
+
+        for (let a = 0; a < 360; a += 15) {
+          const rad = (a * Math.PI) / 180;
+          const r1 = 565;
+          const r2 = a % 45 === 0 ? 598 : 584;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(rad) * r1, Math.sin(rad) * r1);
+          ctx.lineTo(Math.cos(rad) * r2, Math.sin(rad) * r2);
+          ctx.stroke();
+        }
+
+        // Orbiting nodes
+        const nodes = [
+          [290, -0.7, "MARS"],
+          [430, 2.4, "GANYMEDE"],
+          [580, 0.5, "GATE-04"]
+        ];
+        ctx.font = '600 18px "Segoe UI", sans-serif';
+        nodes.forEach(([r, ang, label]) => {
+          const nx = Math.cos(ang) * r;
+          const ny = Math.sin(ang) * r;
+          ctx.fillStyle = theme.accent;
+          ctx.beginPath();
+          ctx.arc(nx, ny, 7, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = hexToRgba(theme.title, 0.72);
+          ctx.fillText(label, nx + 14, ny + 6);
+        });
+        ctx.restore();
+      }
+    }
+
+    function drawCustomBackground() {
+      const img = state.customBg;
+      ctx.save();
+      ctx.fillStyle = "#06080e";
+      ctx.fillRect(0, 0, W, H);
+
+      const scaleCover = Math.max(W / img.width, H / img.height) * state.bgZoom;
+      const dw = img.width * scaleCover;
+      const dh = img.height * scaleCover;
+      const dx = (W - dw) / 2 + (state.bgPanX / 100) * (W * 0.4);
+      const dy = (H - dh) / 2 + (state.bgPanY / 100) * (H * 0.4);
+
+      if (state.bgBlur > 0) {
+        ctx.filter = `blur(${state.bgBlur}px)`;
+      }
+      ctx.drawImage(img, dx, dy, dw, dh);
+      ctx.filter = "none";
+
+      if (state.bgDim > 0) {
+        ctx.fillStyle = `rgba(5, 7, 12, ${state.bgDim})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+      ctx.restore();
+    }
+
+    function getShelfRects() {
+      const sw = state.shelfW;
+      const sh = state.shelfH;
+      const m = state.edgeMargin;
+      const tb = state.taskbar;
+      const usableH = H - tb;
+      const topY = m;
+      const botY = usableH - m - sh;
+      const midY = Math.round((topY + botY) / 2);
+
+      const leftX = m;
+      const rightX = W - m - sw;
+
+      if (state.layout === 4) {
+        return [
+          { idx: 0, x: leftX, y: topY, w: sw, h: sh, title: state.titles[0], code: "01" },
+          { idx: 2, x: leftX, y: botY, w: sw, h: sh, title: state.titles[2], code: "02" },
+          { idx: 3, x: rightX, y: topY, w: sw, h: sh, title: state.titles[3], code: "03" },
+          { idx: 5, x: rightX, y: botY, w: sw, h: sh, title: state.titles[5], code: "04" }
+        ];
+      }
+
+      return [
+        { idx: 0, x: leftX, y: topY, w: sw, h: sh, title: state.titles[0], code: "01" },
+        { idx: 1, x: leftX + state.midOffset, y: midY, w: sw, h: sh, title: state.titles[1], code: "02" },
+        { idx: 2, x: leftX, y: botY, w: sw, h: sh, title: state.titles[2], code: "03" },
+        { idx: 3, x: rightX, y: topY, w: sw, h: sh, title: state.titles[3], code: "04" },
+        { idx: 4, x: rightX - state.midOffset, y: midY, w: sw, h: sh, title: state.titles[4], code: "05" },
+        { idx: 5, x: rightX, y: botY, w: sw, h: sh, title: state.titles[5], code: "06" }
+      ];
+    }
+
+    function chamferPath(x, y, w, h, c) {
+      ctx.beginPath();
+      ctx.moveTo(x + c, y);
+      ctx.lineTo(x + w - c, y);
+      ctx.lineTo(x + w, y + c);
+      ctx.lineTo(x + w, y + h - c);
+      ctx.lineTo(x + w - c, y + h);
+      ctx.lineTo(x + c, y + h);
+      ctx.lineTo(x, y + h - c);
+      ctx.lineTo(x, y + c);
+      ctx.closePath();
+    }
+
+    function drawShelf(shelf, isExport) {
+      const theme = getTheme();
+      const { x, y, w, h, title, code } = shelf;
+      const headerH = 46;
+      const cut = state.frame === "chamfer" ? 18 : 0;
+
+      ctx.save();
+
+      // Subtle outer ambient shadow
+      ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+      ctx.shadowBlur = 24;
+      ctx.shadowOffsetY = 8;
+
+      // Plain dark interior for crisp icon legibility
+      ctx.fillStyle = hexToRgba(theme.boxBg, state.boxOpacity);
+      if (cut > 0) {
+        chamferPath(x, y, w, h, cut);
+        ctx.fill();
+      } else {
+        ctx.fillRect(x, y, w, h);
+      }
+      ctx.shadowColor = "transparent";
+
+      // Header fill band
+      ctx.save();
+      if (cut > 0) {
+        chamferPath(x, y, w, h, cut);
+        ctx.clip();
+      }
+      ctx.fillStyle = hexToRgba(theme.accent, 0.11);
+      ctx.fillRect(x, y, w, headerH);
+
+      // Header separator line
+      ctx.strokeStyle = hexToRgba(theme.accent, 0.45);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(x, y + headerH);
+      ctx.lineTo(x + w, y + headerH);
+      ctx.stroke();
+      ctx.restore();
+
+      // Frame styles
+      if (state.frame === "chamfer") {
+        ctx.strokeStyle = hexToRgba(theme.accent, 0.78);
+        ctx.lineWidth = 2;
+        chamferPath(x, y, w, h, cut);
+        ctx.stroke();
+
+        // Crimson/secondary corner accent ticks
+        ctx.strokeStyle = theme.accent2;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(x + cut, y); ctx.lineTo(x + cut + 42, y);
+        ctx.moveTo(x + w - cut - 42, y + h); ctx.lineTo(x + w - cut, y + h);
+        ctx.stroke();
+      } else if (state.frame === "brackets") {
+        ctx.strokeStyle = hexToRgba(theme.accent, 0.28);
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(x, y, w, h);
+
+        const bl = 26;
+        ctx.strokeStyle = theme.accent;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        // TL
+        ctx.moveTo(x, y + bl); ctx.lineTo(x, y); ctx.lineTo(x + bl, y);
+        // TR
+        ctx.moveTo(x + w - bl, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + bl);
+        // BL
+        ctx.moveTo(x, y + h - bl); ctx.lineTo(x, y + h); ctx.lineTo(x + bl, y + h);
+        // BR
+        ctx.moveTo(x + w - bl, y + h); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w, y + h - bl);
+        ctx.stroke();
+      } else if (state.frame === "double") {
+        ctx.strokeStyle = hexToRgba(theme.accent, 0.78);
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, w, h);
+        ctx.strokeStyle = hexToRgba(theme.accent2, 0.5);
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x + 6, y + 6, w - 12, h - 12);
+      } else {
+        ctx.strokeStyle = hexToRgba(theme.accent, 0.52);
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(x, y, w, h);
+      }
+
+      // Header indicator bar + Title text
+      ctx.fillStyle = theme.accent2;
+      ctx.fillRect(x + 18, y + 14, 6, 18);
+
+      ctx.fillStyle = theme.title;
+      ctx.font = '700 21px "Segoe UI", Arial, sans-serif';
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "left";
+      ctx.fillText((title || "").toUpperCase(), x + 34, y + headerH / 2 + 1);
+
+      // Subtle HUD index tag on right of header
+      ctx.fillStyle = hexToRgba(theme.accent, 0.75);
+      ctx.font = '600 14px ui-monospace, Consolas, monospace';
+      ctx.textAlign = "right";
+      ctx.fillText(`SEC-${code}`, x + w - 18, y + headerH / 2 + 1);
+
+      // Optional 6x3 Windows icon calibration grid (preview only)
+      if (state.showGrid && !isExport) {
+        const cols = 6, rows = 3;
+        const cellW = 76, cellH = 100;
+        const gridW = cols * cellW;
+        const gridH = rows * cellH;
+        const bodyH = h - headerH;
+        const gx = x + (w - gridW) / 2;
+        const gy = y + headerH + (bodyH - gridH) / 2;
+
+        ctx.strokeStyle = hexToRgba(theme.accent, 0.42);
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([5, 5]);
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const cx = gx + c * cellW;
+            const cy = gy + r * cellH;
+            ctx.strokeRect(cx + 4, cy + 4, cellW - 8, cellH - 8);
+          }
+        }
+        ctx.setLineDash([]);
+      }
+
+      ctx.restore();
+    }
+
+    function drawQuote() {
+      if (!state.showQuote || !state.quoteText.trim()) return;
+      const theme = getTheme();
+      const qy = (state.quoteY / 100) * (H - state.taskbar);
+
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      if (state.quoteFont === "italic bold") {
+        ctx.font = `italic 700 ${state.quoteSize}px Georgia, "Times New Roman", serif`;
+      } else if (state.quoteFont === "hud") {
+        ctx.font = `800 ${state.quoteSize}px "Segoe UI", Arial, sans-serif`;
+      } else {
+        ctx.font = `700 ${state.quoteSize}px ui-monospace, Consolas, monospace`;
+      }
+
+      ctx.shadowColor = "rgba(0, 0, 0, 0.85)";
+      ctx.shadowBlur = 16;
+      ctx.shadowOffsetY = 3;
+      ctx.fillStyle = theme.title;
+      ctx.fillText(state.quoteText, W / 2, qy);
+
+      // Subtle accent underline rule
+      const textW = Math.min(ctx.measureText(state.quoteText).width, 960);
+      ctx.shadowColor = "transparent";
+      ctx.strokeStyle = hexToRgba(theme.accent, 0.65);
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(W / 2 - textW * 0.36, qy + state.quoteSize * 0.68);
+      ctx.lineTo(W / 2 + textW * 0.36, qy + state.quoteSize * 0.68);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawScanlines() {
+      if (!state.scanlines) return;
+      ctx.save();
+      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+      for (let y = 0; y < H; y += 6) {
+        ctx.fillRect(0, y, W, 2);
+      }
+      ctx.restore();
+    }
+
+    function drawTaskbarGuide(isExport) {
+      if (isExport || !state.showGrid || state.taskbar <= 0) return;
+      ctx.save();
+      ctx.fillStyle = "rgba(217, 138, 60, 0.14)";
+      ctx.fillRect(0, H - state.taskbar, W, state.taskbar);
+      ctx.strokeStyle = "rgba(217, 138, 60, 0.6)";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([12, 8]);
+      ctx.beginPath();
+      ctx.moveTo(0, H - state.taskbar);
+      ctx.lineTo(W, H - state.taskbar);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#ffd7a8";
+      ctx.font = '600 22px "Segoe UI", sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(`WINDOWS TASKBAR BUFFER (${state.taskbar}px — HIDDEN ON EXPORT)`, W / 2, H - state.taskbar / 2);
+      ctx.restore();
+    }
+
+    function render(isExport = false) {
+      if (state.customBg) {
+        drawCustomBackground();
+      } else {
+        drawBuiltInScene(state.scene);
+      }
+
+      drawScanlines();
+      drawQuote();
+
+      const shelves = getShelfRects();
+      shelves.forEach(s => drawShelf(s, isExport));
+      drawTaskbarGuide(isExport);
+
+      document.getElementById("metaStatus").textContent =
+        `${state.layout === 6 ? "6 Staggered Shelves" : "4 Corner Shelves"} • ${state.shelfW}×${state.shelfH}px • Taskbar Buffer ${state.taskbar}px`;
+    }
+
+    // Build Dynamic UI Cards
+    function buildCards() {
+      const sceneWrap = document.getElementById("sceneCards");
+      SCENES.forEach(s => {
+        const b = document.createElement("button");
+        b.className = "choice-card" + (state.scene === s.id ? " active" : "");
+        b.dataset.scene = s.id;
+        b.innerHTML = `<span class="choice-title">${s.name}</span><span class="choice-sub">${s.sub}</span>`;
+        b.onclick = () => {
+          state.scene = s.id;
+          state.customBg = null;
+          syncUI();
+          render();
+        };
+        sceneWrap.appendChild(b);
+      });
+
+      const themeWrap = document.getElementById("themeCards");
+      THEMES.forEach(t => {
+        const b = document.createElement("button");
+        b.className = "choice-card" + (state.theme === t.id ? " active" : "");
+        b.dataset.theme = t.id;
+        b.innerHTML = `
+          <span class="choice-title">${t.name}</span>
+          <div class="swatch-row">
+            <span class="swatch" style="background:${t.accent}"></span>
+            <span class="swatch" style="background:${t.accent2}"></span>
+            <span class="swatch" style="background:${t.title}"></span>
+          </div>`;
+        b.onclick = () => {
+          state.theme = t.id;
+          syncUI();
+          render();
+        };
+        themeWrap.appendChild(b);
+      });
+
+      const frameWrap = document.getElementById("frameCards");
+      FRAMES.forEach(f => {
+        const b = document.createElement("button");
+        b.className = "choice-card" + (state.frame === f.id ? " active" : "");
+        b.dataset.frame = f.id;
+        b.innerHTML = `<span class="choice-title">${f.name}</span><span class="choice-sub">${f.sub}</span>`;
+        b.onclick = () => {
+          state.frame = f.id;
+          syncUI();
+          render();
+        };
+        frameWrap.appendChild(b);
+      });
+    }
+
+    function syncUI() {
+      document.querySelectorAll("[data-scene]").forEach(el =>
+        el.classList.toggle("active", !state.customBg && el.dataset.scene === state.scene)
+      );
+      document.querySelectorAll("[data-theme]").forEach(el =>
+        el.classList.toggle("active", el.dataset.theme === state.theme)
+      );
+      document.querySelectorAll("[data-frame]").forEach(el =>
+        el.classList.toggle("active", el.dataset.frame === state.frame)
+      );
+      document.querySelectorAll("[data-layout]").forEach(el =>
+        el.classList.toggle("active", Number(el.dataset.layout) === state.layout)
+      );
+      document.getElementById("rowMidL").style.display = state.layout === 6 ? "grid" : "none";
+      document.getElementById("rowMidR").style.display = state.layout === 6 ? "grid" : "none";
+      document.getElementById("btnGrid").classList.toggle("active", state.showGrid);
+    }
+
+    // Tabs
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+      };
+    });
+
+    // Layout toggle
+    document.querySelectorAll("[data-layout]").forEach(btn => {
+      btn.onclick = () => {
+        state.layout = Number(btn.dataset.layout);
+        syncUI();
+        render();
+      };
+    });
+
+    // Bind sliders
+    function bindSlider(id, valId, fmt, setter) {
+      const el = document.getElementById(id);
+      const valEl = document.getElementById(valId);
+      el.oninput = () => {
+        const v = Number(el.value);
+        setter(v);
+        valEl.textContent = fmt(v);
+        render();
+      };
+    }
+
+    bindSlider("bgDim", "valBgDim", v => `${v}%`, v => state.bgDim = v / 100);
+    bindSlider("bgBlur", "valBgBlur", v => `${v}px`, v => state.bgBlur = v);
+    bindSlider("bgZoom", "valBgZoom", v => `${v}%`, v => state.bgZoom = v / 100);
+    bindSlider("bgPanX", "valBgPanX", v => `${v}%`, v => state.bgPanX = v);
+    bindSlider("bgPanY", "valBgPanY", v => `${v}%`, v => state.bgPanY = v);
+    bindSlider("boxOpacity", "valBoxOpacity", v => `${v}%`, v => state.boxOpacity = v / 100);
+    bindSlider("shelfW", "valShelfW", v => `${v}px`, v => state.shelfW = v);
+    bindSlider("shelfH", "valShelfH", v => `${v}px`, v => state.shelfH = v);
+    bindSlider("midOffset", "valMidOffset", v => `${v}px`, v => state.midOffset = v);
+    bindSlider("edgeMargin", "valEdgeMargin", v => `${v}px`, v => state.edgeMargin = v);
+    bindSlider("taskbar", "valTaskbar", v => `${v}px`, v => state.taskbar = v);
+    bindSlider("quoteSize", "valQuoteSize", v => `${v}px`, v => state.quoteSize = v);
+    bindSlider("quoteY", "valQuoteY", v => `${v}%`, v => state.quoteY = v);
+
+    // Titles
+    for (let i = 0; i < 6; i++) {
+      document.getElementById("t" + i).oninput = e => {
+        state.titles[i] = e.target.value;
+        render();
+      };
+    }
+
+    // Toggles & Quote
+    document.getElementById("chkScanlines").onchange = e => { state.scanlines = e.target.checked; render(); };
+    document.getElementById("chkQuote").onchange = e => { state.showQuote = e.target.checked; render(); };
+    document.getElementById("quoteText").oninput = e => { state.quoteText = e.target.value; render(); };
+    document.getElementById("quoteFont").onchange = e => { state.quoteFont = e.target.value; render(); };
+
+    // Custom Image Upload
+    document.getElementById("bgUpload").onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          state.customBg = img;
+          syncUI();
+          render();
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    document.getElementById("btnClearBg").onclick = () => {
+      state.customBg = null;
+      document.getElementById("bgUpload").value = "";
+      syncUI();
+      render();
+    };
+
+    // Topbar actions
+    document.getElementById("btnGrid").onclick = () => {
+      state.showGrid = !state.showGrid;
+      syncUI();
+      render();
+    };
+
+    document.getElementById("btnRandom").onclick = () => {
+      state.scene = SCENES[Math.floor(Math.random() * SCENES.length)].id;
+      state.theme = THEMES[Math.floor(Math.random() * THEMES.length)].id;
+      state.frame = FRAMES[Math.floor(Math.random() * FRAMES.length)].id;
+      state.customBg = null;
+      syncUI();
+      render();
+    };
+
+    document.getElementById("btnDownload").onclick = () => {
+      render(true);
+      const link = document.createElement("a");
+      link.download = `ultrawide-3440x1440-${state.scene}-${state.theme}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      render(false);
+    };
+
+    buildCards();
+    syncUI();
+    render();
+  </script>
+</body>
+</html>
